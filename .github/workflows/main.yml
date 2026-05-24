@@ -18,6 +18,7 @@ jobs:
             - name: test with Maven
               run: mvn test
     code_quality_java:
+        needs: test_java_code
         runs-on: ubuntu-latest
         steps: 
             - name: Checkout code/clone the repository
