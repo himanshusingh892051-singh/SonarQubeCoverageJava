@@ -5,7 +5,7 @@ on:
             - master
     workflow_dispatch:
 jobs:
-    build_java_code:
+    test_java_code:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -15,5 +15,22 @@ jobs:
               with:
                 java-version: '17'
                 distribution: 'temurin'
-            - name: Build with Maven
-              run: mvn package 
+            - name: test with Maven
+              run: mvn test
+    code_quality_java:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: Checkout code/clone the repository
+              uses: actions/checkout@v6
+            - name: Set up JDK 17
+              uses: actions/setup-java@v5
+              with:
+                java-version: '17'
+                distribution: 'temurin'
+            - name: build the code
+              run: mvn package
+            - name: Run SonarCloud analysis
+              run: mvn sonar:sonar -Dsonar.projectKey=himanshu09-sonal_sonar-demo-may-project -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=himanshu09-sonal -Dsonar.token=$SONAR_TOKEN
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
