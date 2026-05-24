@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
 jobs:
     build_java_code:
-        runs-on: ubuntu-lastest
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout code
               uses: actions/checkout@v6
